@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 14px;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    width: 30em;
+    user-select: none;
+    cursor: default;
+}
+
+.widget {
+    width: 30em;
+    min-height: 18em;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex: 1 0 auto;
+    font-size: 1.4em;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+}
+
+.footer {
+    background: #2AC5E6;
+    color: white;
+    font-size: 1.4em;
+    font-weight: 400;
+    padding: 0.4em 1em;
+}
+
+.filter {
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+}
+
+.filter__range {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.8em;
+}
+
+.filter__display {
+    font-size: 5.7em;
+    width: 1.4em;
+    display: flex;
+    align-items: center;
+}
+
+.level {
+    display: flex;
+    min-height: 2.5em;
+    justify-content: center;
+}
+
+.level__heading {
+    font-weight: 300;
+    margin: 0 0.2em;
+}
+
+
+.level__name {
+    font-weight: 500;
+    margin: 0 0.2em;
+}
+
+
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 5px 0;
+    cursor: pointer;
+}
+.slider:focus {
+    outline: none;
+}
+.slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+    background: linear-gradient(90deg, #FCFF98 0%, #E65151 100%);
+    border-radius: 25px;
+    border: 0px solid rgba(1, 1, 1, 0.06);
+}
+.slider::-webkit-slider-thumb {
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.07), 0px 0px 2px 1px rgba(0,0,0,0.11), 0px 7px 3px 0px rgba(0,0,0,0.10), 0px 8px 18px 4px rgba(0,0,0,0.08);
+    height: 30px;
+    width: 30px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+.slider:focus::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #FCFF98 0%, #E65151 100%);
+}

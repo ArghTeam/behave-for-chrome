@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Behave!</title>
+  <link rel="stylesheet" type="text/css" href="../styles/popup.css">
+</head>
+<body>
+
+<div class="widget">
+  <div class="main">
+    <div class="filter">
+      <div class="filter__range">
+        <input id="toxicity" type="range" class="slider" value="100" step="10">
+      </div>
+      <div class="filter__display" id="currentToxicity"></div>
+    </div>
+    <div class="level">
+      <div class="level__heading">Threat level:</div>
+      <div class="level__name" id="currentToxicityDescription"></div>
+    </div>
+
+  </div>
+  <div class="footer">Behave!</div>
+</div>
+  <script src="../scripts/popup.js"></script>
+</body>
+</html>
