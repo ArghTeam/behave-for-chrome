@@ -1,4 +1,5 @@
 import * as Emoji from './emoji'
+import * as ImproveScore from './improve-score'
 
 const HOLDER_SELECTOR = '.argh-fakeContent'
 const HOLDER_OVERLAY_SELECTOR = '.argh-overlay'
@@ -11,6 +12,7 @@ const COMMENT_HOLDER_ACTIVE_CLASS = 'argh-active'
 const COMMENT_CONTROLS_CLASS = 'argh-controls'
 const COMMENT_CONTROLS_SELECTOR = '.argh-controls'
 const COMMENT_CONTROLS_HIDE_SELECTOR = 'a[name="argh-controls-hide_comment"]'
+const COMMENT_CONTROLS_IMPROVE_SCORE_SELECTOR = 'a[name="argh-controls-improve_score"]'
 const COMMENT_CONTROLS_EMOJI_SELECTOR = 'div[name="argh-controls-emoji"]'
 
 
@@ -31,7 +33,7 @@ const getFakeCommentHolderHTML = classModifier => `
 `
 const getFakeCommentControlsHTML = classModifier => `
   <a name="argh-controls-hide_comment" class="argh-controls__item" href="#0">Hide</a>
-  <a class="argh-controls__item" href="#0">Improve score</a>
+  <a name="argh-controls-improve_score" class="argh-controls__item" href="#0">Improve score</a>
   <div name="argh-controls-emoji" class="argh-controls__item"></div>
 `
 
@@ -88,13 +90,10 @@ const toggleControls = (block, type) => {
     mouseOver = true
     setTimeout(() => {
       const unblocked = block.getAttribute('behave') === 'loaded' && block.getAttribute('behave-toxicity')
-
       if (mouseOver && unblocked) {
         controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
         if (controls)
           controls.style.display = 'flex'
-        console.log('BLOCK SHOW CONTROLS')
-        //holder.classList.add(COMMENT_HOLDER_ACTIVE_CLASS)
       }
     }, SHOW_OVERLAY_TIMEOUT)
   }
@@ -103,11 +102,9 @@ const toggleControls = (block, type) => {
     setTimeout(() => {
       const from = e.toElement || e.relatedTarget
       if (block.contains(from) || from === block) return
-      console.log('BLOCK HIDE CONTROLS')
       controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
       if (controls)
         controls.style.display = 'none'
-      //block.classList.remove(COMMENT_HOLDER_ACTIVE_CLASS)
     }, HIDE_OVERLAY_TIMEOUT)
   }
 }
@@ -134,7 +131,7 @@ export const setBlockEmoji = (block, toxicity) => {
   }
 }
 
-export const hideCommentBlock = (block, type) => {
+export const hideCommentBlock = (block, type, text) => {
   let holder = getFakeHolder(block)
 
   if (holder) {
@@ -150,12 +147,14 @@ export const hideCommentBlock = (block, type) => {
   block.insertBefore(controls, block.firstChild)
 
   const hideButton = block.querySelector(COMMENT_CONTROLS_HIDE_SELECTOR)
+  const improveButton = block.querySelector(COMMENT_CONTROLS_IMPROVE_SCORE_SELECTOR)
   const showButton = holder.querySelector(HOLDER_SHOW_BUTTON_SELECTOR)
   const overlay = holder.querySelector(HOLDER_OVERLAY_SELECTOR)
 
   toggleControls(block)
 
-  if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type) & setBlockEmoji(block))
+  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(block, type, text))
+  if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type, text) & setBlockEmoji(block))
   if (overlay) toggleOverlay(block, holder)
   if (showButton) showButton.addEventListener('click', e => e.preventDefault() & showCommentBlock(block, holder))
 }

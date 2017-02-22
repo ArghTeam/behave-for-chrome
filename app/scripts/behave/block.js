@@ -31,12 +31,12 @@ const setBlocksToxicity = blocks => {
 
 export const onToxicityChanged = toxicity => {
   commentBlocks.forEach(block => {
-    const { element } = block
+    const { element, text, type } = block
     const blockToxicity = element.getAttribute(TOXICITY_ATTR)
 
     if (!blockToxicity) return
     if (parseFloat(blockToxicity) >= toxicity) {
-      hideCommentBlock(element)
+      hideCommentBlock(element, type, text)
       setBlockEmoji(element, toxicity)
     } else {
       showCommentBlock(element)
@@ -99,7 +99,7 @@ const appendCommentBlocks = (blocks = [], type, config, cb) => {
   blocks.forEach(block => {
     const blockInfo = getCommentBlockInfo(block, type, config)
     if (blockInfo) {
-      hideCommentBlock(block, type)
+      hideCommentBlock(block, type, blockInfo.text)
       commentBlocks.push(blockInfo)
     }
   })
