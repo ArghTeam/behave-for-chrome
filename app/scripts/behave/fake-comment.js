@@ -153,7 +153,7 @@ export const hideCommentBlock = (block, type, text) => {
 
   toggleControls(block)
 
-  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(block, type, text))
+  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(e, block, type, text))
   if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type, text) & setBlockEmoji(block))
   if (overlay) toggleOverlay(block, holder)
   if (showButton) showButton.addEventListener('click', e => e.preventDefault() & showCommentBlock(block, holder))

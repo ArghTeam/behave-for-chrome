@@ -77,12 +77,15 @@ const clickListener = e => {
 const addClickListener = popover => document.body.addEventListener('click', clickListener, false)
 const removeClickListener = popover => document.body.removeEventListener('click', clickListener, false)
 
-export const onImproveScore = (block, type, text) => {
+export const onImproveScore = (event, block, type, text) => {
+  const bodyRect = document.body.getBoundingClientRect()
+  const targetRect = event.target.getBoundingClientRect()
 
   if (getPopover()) return
 
   const popover = createPopoverElement(type)
   document.body.insertBefore(popover, document.body.lastChild)
+  popover.setAttribute('style', `top: ${targetRect.top - bodyRect.top}px;left: ${targetRect.left}px; bottom: 0`)
   popover.setAttribute('score', block.getAttribute('behave-toxicity'))
   popover.setAttribute('text', text)
 
