@@ -6,6 +6,8 @@ const POPOVER_SCORE_BODY_SELECTOR = '.argh-suggest-score__body'
 const POPOVER_SCORE_HEADING_SELECTOR = '.argh-suggest-score__heading'
 const POPOVER_SUCCESS_SELECTOR = '.argh-suggest-score__success'
 
+const SUCCESS_TIMEOUT = 60000
+
 const getImprovePopoverHTML = classModifier => `
   <div class="argh-suggest-score__holder">
       <div class="argh-suggest-score__heading">
@@ -50,15 +52,10 @@ const onScoreSelect = (target, popover) => {
   const text = popover.getAttribute('text')
   const selectedScore = target.getAttribute('score')
   if (selectedScore) {
-    const body = popover.querySelector(POPOVER_SCORE_BODY_SELECTOR)
-    const heading = popover.querySelector(POPOVER_SCORE_HEADING_SELECTOR)
     const success = popover.querySelector(POPOVER_SUCCESS_SELECTOR)
-    body.style.display = 'none'
-    heading.style.display = 'none'
-    success.style.display = 'block'
-
+    success.classList.add('argh-suggest-score__success--on')
     console.log({ score, text, selectedScore })
-    return setTimeout(() => removeClickListener(popover) & removePopoverElement(popover), 1000)
+    return setTimeout(() => removeClickListener(popover) & removePopoverElement(popover), SUCCESS_TIMEOUT)
   }
   return
 }
