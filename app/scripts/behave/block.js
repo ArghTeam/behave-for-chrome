@@ -16,11 +16,11 @@ const setBlocksToxicity = blocks => {
     response => {
       blocks.forEach(block => {
         const { element, toxicity } = block
-
         if (toxicity >= response.toxicity) {
           setBlockEmoji(element, toxicity)
         } else {
           showCommentBlock(element)
+          setBlockEmoji(element, toxicity)
         }
         element.setAttribute(TOXICITY_ATTR, toxicity)
         element.setAttribute(BEHAVE_ATTR, 'loaded')
