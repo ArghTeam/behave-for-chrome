@@ -88,8 +88,9 @@
 
 .argh-controls {
   float: right;
-  position: relative;
+  position: absolute;
   right: 0;
+  bottom: 0;
   padding: 0 0.2em;
   display: flex;
 }
