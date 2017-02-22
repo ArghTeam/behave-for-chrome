@@ -30,12 +30,8 @@ const getFakeCommentHolderHTML = classModifier => `
     </div>
 `
 const getFakeCommentControlsHTML = classModifier => `
-  <div class="argh-controls__item">
-    <a name="argh-controls-hide_comment" href="#0">Hide</a>
-  </div>
-  <div class="argh-controls__item">
-    <a href="#0">Improve score</a>
-  </div>
+  <a name="argh-controls-hide_comment" class="argh-controls__item" href="#0">Hide</a>
+  <a class="argh-controls__item" href="#0">Improve score</a>
   <div name="argh-controls-emoji" class="argh-controls__item"></div>
 `
 
