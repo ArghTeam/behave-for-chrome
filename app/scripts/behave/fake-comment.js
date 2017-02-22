@@ -6,6 +6,11 @@ const HOLDER_SHOW_BUTTON_SELECTOR = '.argh-overlay > a'
 const HOLDER_EMOJI_SELECTOR = '.argh-emojis'
 const COMMENT_HOLDER_CLASS = 'argh-fakeContent'
 const COMMENT_HOLDER_ACTIVE_CLASS = 'argh-active'
+
+
+const COMMENT_CONTROLS_CLASS = 'argh-controls'
+
+
 const SHOW_OVERLAY_TIMEOUT = 300
 const HIDE_OVERLAY_TIMEOUT = 300
 
@@ -21,6 +26,15 @@ const getFakeCommentHolderHTML = classModifier => `
       <a href="#0" class="yt-uix-button yt-uix-button-default yt-uix-button-size-default"><span class="yt-uix-button-content">Show comment</span></a>
     </div>
 `
+const getFakeCommentControlsHTML = classModifier => `
+  <div class="argh-controls__item">
+    <a href="#0">Hide</a>
+  </div>
+  <div class="argh-controls__item">
+    <a href="#0">Improve score</a>
+  </div>
+  <div class="argh-controls__item">😡</div>
+`
 
 const getFakeHolder = block => block ? block.querySelector(HOLDER_SELECTOR) : null
 
@@ -29,6 +43,14 @@ const createFakeCommentHolderElement = type => {
   const holder = document.createElement('div')
   holder.classList.add(COMMENT_HOLDER_CLASS)
   holder.innerHTML = getFakeCommentHolderHTML()
+  return holder
+}
+
+const createFakeCommentControlsElement = type => {
+  if (type !== 'comment') return null
+  const holder = document.createElement('div')
+  holder.classList.add(COMMENT_CONTROLS_CLASS)
+  holder.innerHTML = getFakeCommentControlsHTML()
   return holder
 }
 
@@ -83,8 +105,10 @@ export const hideCommentBlock = (block, type) => {
   setCommentBlockPosition(block)
 
   holder = createFakeCommentHolderElement(type)
-
   block.insertBefore(holder, block.firstChild)
+
+  const controls = createFakeCommentControlsElement(type)
+  block.insertBefore(controls, block.firstChild)
 
   const showButton = holder.querySelector(HOLDER_SHOW_BUTTON_SELECTOR)
   const overlay = holder.querySelector(HOLDER_OVERLAY_SELECTOR)
