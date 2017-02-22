@@ -10,7 +10,8 @@ const COMMENT_HOLDER_ACTIVE_CLASS = 'argh-active'
 
 const COMMENT_CONTROLS_CLASS = 'argh-controls'
 const COMMENT_CONTROLS_SELECTOR = '.argh-controls'
-const COMMENT_CONTROLS_HIDE_SELECTOR = 'a[name="argh-hide_comment"]'
+const COMMENT_CONTROLS_HIDE_SELECTOR = 'a[name="argh-controls-hide_comment"]'
+const COMMENT_CONTROLS_EMOJI_SELECTOR = 'div[name="argh-controls-emoji"]'
 
 
 const SHOW_OVERLAY_TIMEOUT = 300
@@ -29,9 +30,9 @@ const getFakeCommentHolderHTML = classModifier => `
     </div>
 `
 const getFakeCommentControlsHTML = classModifier => `
-  <a class="argh-controls__item" name="argh-hide_comment" href="#0">Hide</a>
+  <a name="argh-controls-hide_comment" class="argh-controls__item" href="#0">Hide</a>
   <a class="argh-controls__item" href="#0">Improve score</a>
-  <div class="argh-controls__item">😡</div>
+  <div name="argh-controls-emoji" class="argh-controls__item"></div>
 `
 
 const getFakeHolder = block => block ? block.querySelector(HOLDER_SELECTOR) : null
@@ -115,6 +116,12 @@ export const setBlockEmoji = (block, toxicity) => {
   if (toxicity === undefined) {
     toxicity = parseFloat(block.getAttribute('behave-toxicity'))
   }
+
+  const controlsEmoji = block.querySelector(COMMENT_CONTROLS_EMOJI_SELECTOR)
+  if (controlsEmoji) {
+    controlsEmoji.innerHTML = Emoji.getEmoji(toxicity)
+  }
+
   const holder = getFakeHolder(block)
   if (holder) {
     const emojiBlock = holder.querySelector(HOLDER_EMOJI_SELECTOR)
