@@ -85,3 +85,15 @@
   color: #555;
   opacity: .75;
 }
+
+.argh-controls {
+  float: right;
+  position: relative;
+  right: 0;
+  padding: 0 0.2em;
+  display: flex;
+}
+
+.argh-controls__item {
+  padding: 0 0.4em;
+}
