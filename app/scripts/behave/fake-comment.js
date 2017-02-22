@@ -9,6 +9,8 @@ const COMMENT_HOLDER_ACTIVE_CLASS = 'argh-active'
 
 
 const COMMENT_CONTROLS_CLASS = 'argh-controls'
+const COMMENT_CONTROLS_SELECTOR = '.argh-controls'
+const COMMENT_CONTROLS_HIDE_SELECTOR = 'a[name="argh-hide_comment"]'
 
 
 const SHOW_OVERLAY_TIMEOUT = 300
@@ -28,7 +30,7 @@ const getFakeCommentHolderHTML = classModifier => `
 `
 const getFakeCommentControlsHTML = classModifier => `
   <div class="argh-controls__item">
-    <a href="#0">Hide</a>
+    <a name="argh-hide_comment" href="#0">Hide</a>
   </div>
   <div class="argh-controls__item">
     <a href="#0">Improve score</a>
@@ -82,7 +84,41 @@ const toggleOverlay = (block, holder) => {
   }
 }
 
+const toggleControls = (block, type) => {
+  let mouseOver = false
+  let controls = null
+  block.onmouseover = () => {
+    mouseOver = true
+    setTimeout(() => {
+      const unblocked = block.getAttribute('behave') === 'loaded' && block.getAttribute('behave-toxicity')
+
+      if (mouseOver && unblocked) {
+        controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
+        if (controls)
+          controls.style.display = 'flex'
+        console.log('BLOCK SHOW CONTROLS')
+        //holder.classList.add(COMMENT_HOLDER_ACTIVE_CLASS)
+      }
+    }, SHOW_OVERLAY_TIMEOUT)
+  }
+  block.onmouseout = (e) => {
+    mouseOver = false
+    setTimeout(() => {
+      const from = e.toElement || e.relatedTarget
+      if (block.contains(from) || from === block) return
+      console.log('BLOCK HIDE CONTROLS')
+      controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
+      if (controls)
+        controls.style.display = 'none'
+      //block.classList.remove(COMMENT_HOLDER_ACTIVE_CLASS)
+    }, HIDE_OVERLAY_TIMEOUT)
+  }
+}
+
 export const setBlockEmoji = (block, toxicity) => {
+  if (toxicity === undefined) {
+    toxicity = parseFloat(block.getAttribute('behave-toxicity'))
+  }
   const holder = getFakeHolder(block)
   if (holder) {
     const emojiBlock = holder.querySelector(HOLDER_EMOJI_SELECTOR)
@@ -110,9 +146,13 @@ export const hideCommentBlock = (block, type) => {
   const controls = createFakeCommentControlsElement(type)
   block.insertBefore(controls, block.firstChild)
 
+  const hideButton = block.querySelector(COMMENT_CONTROLS_HIDE_SELECTOR)
   const showButton = holder.querySelector(HOLDER_SHOW_BUTTON_SELECTOR)
   const overlay = holder.querySelector(HOLDER_OVERLAY_SELECTOR)
 
+  toggleControls(block)
+
+  if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type) & setBlockEmoji(block))
   if (overlay) toggleOverlay(block, holder)
   if (showButton) showButton.addEventListener('click', e => e.preventDefault() & showCommentBlock(block, holder))
 }

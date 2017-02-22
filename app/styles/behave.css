@@ -92,7 +92,7 @@
   right: 0;
   bottom: 0;
   padding: 0 0.2em;
-  display: flex;
+  display: none;
 }
 
 .argh-controls__item {
