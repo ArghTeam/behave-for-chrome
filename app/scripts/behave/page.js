@@ -8,12 +8,15 @@ let observers = {}
 let pageInfo = null
 let started = false
 let onScrollTimer = null
+let targetElement = null
 
 const startObserver = config => {
   const { selector } = config
-  const targetElement = document.querySelector(selector)
+  const foundedTargetElement = document.querySelector(selector)
 
-  if (!targetElement) return setTimeout(() => startObserver(config), 10)
+  if (!foundedTargetElement || targetElement === foundedTargetElement) return setTimeout(() => startObserver(config), 10)
+
+  targetElement = foundedTargetElement
 
   Blocks.getContentBlocks(targetElement, 'comment', pageInfo)
 
@@ -39,14 +42,14 @@ export const start = info => {
   started = true
   pageInfo = info
 
-  window.addEventListener('scroll', onScroll)
+  window.addEventListener('scroll', onScroll, false)
   pageInfo.pageContainers.forEach(startObserver)
 }
 
 export const restart = info => {
   started = false
   Blocks.removeBlocks()
-  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('scroll', onScroll, false)
   stop()
   start(info)
 }

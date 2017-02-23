@@ -11,10 +11,12 @@ let behaveTabs = []
 const isInjected = tabId =>
   chrome.tabs.executeScript(tabId, {
     code: `
-      if (!window.behaveStarted && !window.behaveInjected)
+      if (!window.behaveStarted && !window.behaveInjected) {
         chrome.runtime.sendMessage({ action: 'GET_FRAME_INFO', url: document.URL }, function (response) { window.behaveStarted = response; });
-      else if (window.behaveStarted && window.behaveInjected)
+      } else if (window.behaveStarted && window.behaveInjected) {
         chrome.runtime.sendMessage({ action: 'RESTART_BEHAVE', url: document.URL });
+      }
+
       window.behaveInjected = true;
       `,
     allFrames: true,
@@ -60,6 +62,7 @@ const onMessage = (request, sender, sendResponse) => {
     behaveTabs.push({ frameId, tabId: tab.id, url })
   } else if (action === 'RESTART_BEHAVE' && pageInfo.domain && tabUrlChanged(tab.id, url)) {
     updateBehaveTabs(tab.id, { url })
+    startBehaveFilter(tab.id, frameId, pageInfo, 'RESTART_BEHAVE')
   }
 
   switch(action) {
