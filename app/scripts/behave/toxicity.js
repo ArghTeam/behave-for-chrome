@@ -24,3 +24,16 @@ export const getToxicity = (blocks, callback) => {
       return callback(blocks)
     })
 }
+
+export const suggestScore = (data, callback) =>
+  fetch(`${BASE_URL}/api/suggest`,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(callback)
