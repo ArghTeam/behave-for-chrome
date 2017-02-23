@@ -1,4 +1,6 @@
 import * as emoji from './emoji'
+import * as Site from '../sites'
+import { improveScore } from './toxicity'
 
 const POPOVER_CLASS = 'argh-suggest-score'
 const POPOVER_SELECTOR = '.argh-suggest-score'
@@ -48,14 +50,14 @@ const removePopoverElement = popover => {
 }
 
 const onScoreSelect = (target, popover) => {
-  const score = popover.getAttribute('score')
-  const text = popover.getAttribute('text')
-  const selectedScore = target.getAttribute('score')
-  if (selectedScore) {
+  const score = target.getAttribute('score')
+  if (score) {
     const success = popover.querySelector(POPOVER_SUCCESS_SELECTOR)
+    const message = popover.getAttribute('text')
+    const communityId = Site.getPageDomain(document.URL)
     success.classList.add('argh-suggest-score__success--on')
-    console.log({ score, text, selectedScore })
-    return setTimeout(() => removeClickListener(popover) & removePopoverElement(popover), SUCCESS_TIMEOUT)
+
+    return improveScore({ message, score, communityId }, result => result.success ? removeClickListener(popover) & removePopoverElement(popover) : null)
   }
   return
 }
