@@ -3,6 +3,8 @@
 // Enable chromereload by uncommenting this line:
 import './lib/livereload'
 import { getPageInfo } from './sites'
+import { getToxicityScore, suggestToxicityScore } from './behave/sentiment_api'
+
 
 let behaveTabs = []
 
@@ -50,7 +52,7 @@ const updateComments = toxicity =>
   })
 
 const onMessage = (request, sender, sendResponse) => {
-  const { action, url } = request
+  const { action, url, data } = request
   const { tab, frameId } = sender
   const pageInfo = getPageInfo(url)
 
@@ -72,6 +74,24 @@ const onMessage = (request, sender, sendResponse) => {
     default: return
   }
 }
+
+const onPortMessage = (request, sender) => {
+  switch(request.action) {
+    case 'GET_BLOCK_TOXICITY':
+      return getToxicityScore(request.text).then(score => {
+        sender.postMessage({ action: 'GET_BLOCK_TOXICITY_RESULT', score })
+      })
+    case 'GET_SUGGEST_SCORE':
+      const { message, score, communityId } = request.data
+      return suggestToxicityScore(message, score, communityId).then(result => sender.postMessage({ action: 'GET_SUGGEST_SCORE_RESULT', result }))
+    default:
+      return
+  }
+}
+
+const onPortConnect = port => port.onMessage.addListener(onPortMessage)
+
+chrome.runtime.onConnect.addListener(onPortConnect);
 
 chrome.extension.onMessage.addListener(onMessage)
 
