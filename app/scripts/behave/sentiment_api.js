@@ -40,7 +40,16 @@ const analyze = text => {
   return analyzeComment(data)
 }
 
-const suggest = (text, score, communityId) => {
+
+export const getToxicityScore = text => 
+  analyze(text).then(result =>{
+    if (result.attributeScores) {
+      return result.attributeScores[ATTRIBUTE_NAME].summaryScore.value
+    }
+    return 0
+  })
+
+export const suggestToxicityScore = (text, score, communityId) => {
   let data = {
     comment: {
       text: text
@@ -59,14 +68,3 @@ const suggest = (text, score, communityId) => {
 
   return suggestComment(data)
 }
-
-
-export const getToxicityScore = text => 
-  analyze(text).then(result =>{
-    if (result.attributeScores) {
-      return result.attributeScores[ATTRIBUTE_NAME].summaryScore.value
-    }
-    return 0
-  })
-
-export const suggestToxicityScore = suggest
