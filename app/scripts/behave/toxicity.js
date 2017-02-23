@@ -25,7 +25,7 @@ export const getToxicity = (blocks, callback) => {
     })
 }
 
-export const improveScore = (data, callback) =>
+export const suggestScore = (data, callback) =>
   fetch(`${BASE_URL}/api/suggest`,
     {
       headers: {

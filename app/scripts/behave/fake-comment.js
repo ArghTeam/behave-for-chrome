@@ -1,5 +1,5 @@
 import * as Emoji from './emoji'
-import * as ImproveScore from './improve-score'
+import * as SuggestScorePopup from './suggest-score-popup'
 
 const HOLDER_SELECTOR = '.argh-fakeContent'
 const HOLDER_OVERLAY_SELECTOR = '.argh-overlay'
@@ -155,7 +155,7 @@ export const hideCommentBlock = (block, type, text) => {
 
   toggleControlsEvent(block)
 
-  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(e, block, type, text, () => toggleControls(block, false)))
+  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & SuggestScorePopup.onShowPopup(e, block, type, text, () => toggleControls(block, false)))
   if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type, text) & setBlockEmoji(block))
   if (overlay) toggleOverlayEvent(block, holder)
   if (showButton) showButton.addEventListener('click', e => e.preventDefault() & showCommentBlock(block, holder))
