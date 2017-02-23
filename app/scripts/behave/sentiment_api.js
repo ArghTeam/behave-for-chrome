@@ -4,7 +4,7 @@ import { makeSignedRequest } from './google_api'
 
 const ANALYZE_API_DOMAIN = 'https://commentanalyzer.googleapis.com'
 const ANALYZE_API_ANALYZE_COMMENT = `${ANALYZE_API_DOMAIN}/v1alpha1/comments:analyze`
-// const ANALYZE_API_SUGGEST_COMMENT = `${ANALYZE_API_DOMAIN}/v1alpha1/comments:suggestscore`
+const ANALYZE_API_SUGGEST_COMMENT = `${ANALYZE_API_DOMAIN}/v1alpha1/comments:suggestscore`
 
 const ATTRIBUTE_NAME = 'TOXICITY_FAST'
 
@@ -12,6 +12,14 @@ const ATTRIBUTE_NAME = 'TOXICITY_FAST'
 const analyzeComment = data =>
   new Promise((resolve, reject) =>{
     makeSignedRequest(ANALYZE_API_ANALYZE_COMMENT, data, (result) =>{
+      if (result.error) return reject(result.error)
+      resolve(result)
+    })
+  })
+
+const suggestComment = data =>
+  new Promise((resolve, reject) =>{
+    makeSignedRequest(ANALYZE_API_SUGGEST_COMMENT, data, (result) =>{
       if (result.error) return reject(result.error)
       resolve(result)
     })
@@ -32,6 +40,26 @@ const analyze = text => {
   return analyzeComment(data)
 }
 
+const suggest = (text, score, communityId) => {
+  let data = {
+    comment: {
+      text: text
+    },
+    attributeScores: {}
+    // doNotStore: false
+  }
+
+  data.attributeScores[ATTRIBUTE_NAME] = {
+    summaryScore: {
+      value: score
+    }
+  }
+
+  if (communityId) data.communityId = communityId
+
+  return suggestComment(data)
+}
+
 
 export const getToxicityScore = text => 
   analyze(text).then(result =>{
@@ -40,3 +68,5 @@ export const getToxicityScore = text =>
     }
     return 0
   })
+
+export const suggestToxicityScore = suggest
