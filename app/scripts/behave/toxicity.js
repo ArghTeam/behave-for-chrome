@@ -1,57 +1,50 @@
-// const BASE_URL = 'https://comments.api.argh.team'
+let ports = []
 
-// const getMessages = blocks => blocks.map(block => block.text)
+const generatePortId = () => {
+  const id = '' + Math.random().toString(16).slice(2)
+  if (ports.indexOf(id) < 0) {
+    ports.push(id)
+    return id
+  }
+  return generatePortId()
+}
 
-
-// export const getToxicity = (blocks, callback) => {
-//   const messages = { messages: getMessages(blocks) }
-
-//   fetch(`${BASE_URL}/api/scores`,
-//     {
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json'
-//       },
-//       method: 'POST',
-//       body: JSON.stringify(messages)
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//       const { scores } = data
-//       scores.map((score, index) => {
-//         blocks[index].toxicity = score
-//       })
-//       return callback(blocks)
-//     })
-// }
+const getBlockToxicity = (block, callback) => {
+  const id = generatePortId()
+  const port = chrome.runtime.connect({ name: id })
+  port.postMessage({ action: 'GET_BLOCK_TOXICITY', text: block.text, id })
+  port.onMessage.addListener((message, sender) => {
+    if (message.action === 'GET_BLOCK_TOXICITY_RESULT' && sender.name === id) {
+      sender.disconnect()
+      ports = ports.filter(p => p !== sender.name)
+      return callback(message.score)
+    }
+  })
+}
 
 export const getToxicity = (blocks, callback) => {
-  let promises = blocks.map(block =>{
-    return new Promise(resolve =>{
-      chrome.extension.sendMessage({ action: 'GET_MESSAGE_TOXICITY', data: block.text }, (response) => {
-        console.log('Response', response)
-        block.toxicity = response
+  let promises = blocks.map(block => {
+    return new Promise(resolve => {
+      getBlockToxicity(block, score => {
+        block.toxicity = score
         resolve(block)
       })
     })
-    // return getToxicityScore(block.text).then(score => block.toxicity = score)
   })
-
-
-  Promise.all(promises).then(data => {console.log('DATA', data); callback(blocks)})
-
-  // callback(blocks)
+  Promise.all(promises).then(callback)
 }
 
-export const suggestScore = (data, callback) =>
-  fetch(`${BASE_URL}/api/suggest`,
-    {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(callback)
+const getSuggestScore = (data, callback) => {
+  const id = generatePortId()
+  const port = chrome.runtime.connect({ name: id })
+  port.postMessage({ action: 'GET_SUGGEST_SCORE', data, id })
+  port.onMessage.addListener((message, sender) => {
+    if (message.action === 'GET_SUGGEST_SCORE_RESULT' && sender.name === id) {
+      sender.disconnect()
+      ports = ports.filter(p => p !== sender.name)
+      return callback(message.result)
+    }
+  })
+}
+
+export const suggestScore = (data, callback) => getSuggestScore(data, callback)

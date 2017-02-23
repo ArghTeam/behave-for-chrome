@@ -68,14 +68,37 @@ const onMessage = (request, sender, sendResponse) => {
   switch(action) {
     case 'GET_TOXICITY':
       return sendResponse({ toxicity: localStorage.toxicity || 0.5 })
-    case 'GET_MESSAGE_TOXICITY':
-      return getToxicityScore(data).then(score => {console.log('SCORE', score); sendResponse(score); })
     case 'UPDATE_TOXICITY':
       localStorage.toxicity = request.toxicity
       return updateComments(request.toxicity)
     default: return
   }
 }
+
+const fakeGetSuggest = (data, callback) => {
+  setTimeout(() => callback({ success: true }), 1000)
+}
+
+const onPortMessage = (message, sender) => {
+  switch(message.action) {
+    case 'GET_BLOCK_TOXICITY':
+      return getToxicityScore(message.text).then(score => {
+        sender.postMessage({ action: 'GET_BLOCK_TOXICITY_RESULT', score })
+      })
+    case 'GET_SUGGEST_SCORE':
+      console.log(message.data)
+      return fakeGetSuggest(message.data, result => sender.postMessage({ action: 'GET_SUGGEST_SCORE_RESULT', result }))
+    default:
+      return
+  }
+  if (message.action === '') {
+
+  }
+}
+
+const onPortConnect = port => port.onMessage.addListener(onPortMessage)
+
+chrome.runtime.onConnect.addListener(onPortConnect);
 
 chrome.extension.onMessage.addListener(onMessage)
 
