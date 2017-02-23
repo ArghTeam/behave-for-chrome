@@ -104,8 +104,7 @@
 
 .argh-suggest-score {
   position: absolute;
-  bottom: 2em;
-  right: 2.5em;
+  width: 22em;
   z-index: 10000000;
 }
 
