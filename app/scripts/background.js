@@ -3,7 +3,7 @@
 // Enable chromereload by uncommenting this line:
 import './lib/livereload'
 import { getPageInfo } from './sites'
-import { getToxicityScore } from './behave/sentiment_api'
+import { getToxicityScore, suggestToxicityScore } from './behave/sentiment_api'
 
 
 let behaveTabs = []
@@ -75,24 +75,17 @@ const onMessage = (request, sender, sendResponse) => {
   }
 }
 
-const fakeGetSuggest = (data, callback) => {
-  setTimeout(() => callback({ success: true }), 1000)
-}
-
-const onPortMessage = (message, sender) => {
-  switch(message.action) {
+const onPortMessage = (request, sender) => {
+  switch(request.action) {
     case 'GET_BLOCK_TOXICITY':
-      return getToxicityScore(message.text).then(score => {
+      return getToxicityScore(request.text).then(score => {
         sender.postMessage({ action: 'GET_BLOCK_TOXICITY_RESULT', score })
       })
     case 'GET_SUGGEST_SCORE':
-      console.log(message.data)
-      return fakeGetSuggest(message.data, result => sender.postMessage({ action: 'GET_SUGGEST_SCORE_RESULT', result }))
+      const { message, score, communityId } = request.data
+      return suggestToxicityScore(message, score, communityId).then(result => sender.postMessage({ action: 'GET_SUGGEST_SCORE_RESULT', result }))
     default:
       return
-  }
-  if (message.action === '') {
-
   }
 }
 

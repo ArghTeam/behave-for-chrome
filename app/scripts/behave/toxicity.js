@@ -34,7 +34,7 @@ export const getToxicity = (blocks, callback) => {
   Promise.all(promises).then(callback)
 }
 
-const getSuggestScore = (data, callback) => {
+export const suggestScore = (data, callback) => {
   const id = generatePortId()
   const port = chrome.runtime.connect({ name: id })
   port.postMessage({ action: 'GET_SUGGEST_SCORE', data, id })
@@ -42,9 +42,8 @@ const getSuggestScore = (data, callback) => {
     if (message.action === 'GET_SUGGEST_SCORE_RESULT' && sender.name === id) {
       sender.disconnect()
       ports = ports.filter(p => p !== sender.name)
-      return callback(message.result)
+      const result = { success: !message.result.hasOwnProperty('error') }
+      return callback(result)
     }
   })
 }
-
-export const suggestScore = (data, callback) => getSuggestScore(data, callback)
