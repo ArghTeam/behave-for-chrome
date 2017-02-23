@@ -24,7 +24,7 @@
   },
   "permissions": [ "tabs", "identity", "<all_urls>" ],
   "oauth2": {
-    "client_id": "503104139182-te6jjph8d43k5ql6dmropuiqiguo8lrv.apps.googleusercontent.com",
+    "client_id": "423912167088-6g9qnfodt0jf8sdse2doqed88jhnrkec.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/userinfo.email"
     ]
