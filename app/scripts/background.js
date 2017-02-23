@@ -3,6 +3,8 @@
 // Enable chromereload by uncommenting this line:
 import './lib/livereload'
 import { getPageInfo } from './sites'
+import { getToxicityScore } from './behave/sentiment_api'
+
 
 let behaveTabs = []
 
@@ -48,7 +50,7 @@ const updateComments = toxicity =>
   })
 
 const onMessage = (request, sender, sendResponse) => {
-  const { action, url } = request
+  const { action, url, data } = request
   const { tab, frameId } = sender
   const pageInfo = getPageInfo(url)
 
@@ -63,6 +65,8 @@ const onMessage = (request, sender, sendResponse) => {
   switch(action) {
     case 'GET_TOXICITY':
       return sendResponse({ toxicity: localStorage.toxicity || 0.5 })
+    case 'GET_MESSAGE_TOXICITY':
+      return getToxicityScore(data).then(score => {console.log('SCORE', score); sendResponse(score); })
     case 'UPDATE_TOXICITY':
       localStorage.toxicity = request.toxicity
       return updateComments(request.toxicity)

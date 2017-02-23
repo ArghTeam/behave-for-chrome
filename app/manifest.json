@@ -22,5 +22,11 @@
     "default_title": "__MSG_browserActionTitle__",
     "default_popup": "pages/popup.html"
   },
-  "permissions": [ "tabs", "<all_urls>" ]
+  "permissions": [ "tabs", "identity", "<all_urls>" ],
+  "oauth2": {
+    "client_id": "503104139182-te6jjph8d43k5ql6dmropuiqiguo8lrv.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  }
 }
