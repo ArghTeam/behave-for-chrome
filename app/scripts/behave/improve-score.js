@@ -2,6 +2,8 @@ import * as emoji from './emoji'
 import * as Site from '../sites'
 import { improveScore } from './toxicity'
 
+let toggleControlsIn = null
+
 const POPOVER_CLASS = 'argh-suggest-score'
 const POPOVER_SELECTOR = '.argh-suggest-score'
 const POPOVER_SCORE_BODY_SELECTOR = '.argh-suggest-score__body'
@@ -57,9 +59,15 @@ const onScoreSelect = (target, popover) => {
     const communityId = Site.getPageDomain(document.URL)
     success.classList.add('argh-suggest-score__success--on')
 
-    return improveScore({ message, score, communityId }, result => result.success ? removeClickListener(popover) & removePopoverElement(popover) : null)
+    return improveScore({ message, score, communityId }, result => result.success ? removePopover(popover) & toggleControlsIn() : null)
   }
   return
+}
+
+const removePopover = (popover) => {
+  removeClickListener(popover)
+  removePopoverElement(popover)
+  window.behavePopoover = false
 }
 
 const clickListener = e => {
@@ -70,23 +78,45 @@ const clickListener = e => {
   const from = e.toElement || e.relatedTarget
 
   if (popover.contains(from) || from === popover) return onScoreSelect(e.target, popover)
-  return removeClickListener(popover) & removePopoverElement(popover)
+  return removePopover(popover) & toggleControlsIn()
 }
 
 const addClickListener = popover => document.body.addEventListener('click', clickListener, false)
 const removeClickListener = popover => document.body.removeEventListener('click', clickListener, false)
 
-export const onImproveScore = (event, block, type, text) => {
-  const bodyRect = document.body.getBoundingClientRect()
-  const targetRect = event.target.getBoundingClientRect()
 
-  if (getPopover()) return
-
+const addPopover = (block, type, text) => {
   const popover = createPopoverElement(type)
   document.body.insertBefore(popover, document.body.lastChild)
-  popover.setAttribute('style', `top: ${targetRect.top - bodyRect.top}px;left: ${targetRect.left}px; bottom: 0`)
+
+  const blockRect = block.getBoundingClientRect()
+  const popoverRect = popover.getBoundingClientRect()
+  const bodyRect = document.body.getBoundingClientRect()
+  const targetRect = event.target.getBoundingClientRect()
+  const popoverTop = targetRect.top - bodyRect.top - popoverRect.height - 10
+  const popoverLeft = blockRect.right - popoverRect.width
+
+
+  popover.setAttribute('style', `top: ${popoverTop}px;left: ${popoverLeft}px; bottom: 0`)
   popover.setAttribute('score', block.getAttribute('behave-toxicity'))
   popover.setAttribute('text', text)
+
+  window.behavePopoover = true
+
+  return popover
+}
+
+export const onImproveScore = (event, block, type, text, toggleControls) => {
+  let popover = getPopover()
+
+  toggleControlsIn = toggleControls
+
+  if (popover) {
+    return removePopover(popover)
+  }
+
+  popover = addPopover(block, type, text)
+
 
   setTimeout(() => addClickListener(popover), 500)
 

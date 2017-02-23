@@ -61,7 +61,7 @@ const setCommentBlockPosition = block => {
   }
 }
 
-const toggleOverlay = (block, holder) => {
+const toggleOverlayEvent = (block, holder) => {
   let mouseOver = false
   holder.onmouseover = () => {
     mouseOver = true
@@ -83,17 +83,15 @@ const toggleOverlay = (block, holder) => {
   }
 }
 
-const toggleControls = (block, type) => {
+const toggleControlsEvent = (block, type) => {
   let mouseOver = false
   let controls = null
   block.onmouseover = () => {
     mouseOver = true
     setTimeout(() => {
       const unblocked = block.getAttribute('behave') === 'loaded' && block.getAttribute('behave-toxicity')
-      if (mouseOver && unblocked) {
-        controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
-        if (controls)
-          controls.style.display = 'flex'
+      if (mouseOver && unblocked && !window.behavePopoover) {
+        toggleControls(block, true)
       }
     }, SHOW_OVERLAY_TIMEOUT)
   }
@@ -101,12 +99,16 @@ const toggleControls = (block, type) => {
     mouseOver = false
     setTimeout(() => {
       const from = e.toElement || e.relatedTarget
-      if (block.contains(from) || from === block) return
-      controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
-      if (controls)
-        controls.style.display = 'none'
+      if (block.contains(from) || from === block || window.behavePopoover) return
+      toggleControls(block, false)
     }, HIDE_OVERLAY_TIMEOUT)
   }
+}
+
+const toggleControls = (block, toggle) => {
+  const controls = block.querySelector(COMMENT_CONTROLS_SELECTOR)
+  if (controls)
+    controls.style.display = toggle ? 'flex' : 'none'
 }
 
 export const setBlockEmoji = (block, toxicity) => {
@@ -151,11 +153,11 @@ export const hideCommentBlock = (block, type, text) => {
   const showButton = holder.querySelector(HOLDER_SHOW_BUTTON_SELECTOR)
   const overlay = holder.querySelector(HOLDER_OVERLAY_SELECTOR)
 
-  toggleControls(block)
+  toggleControlsEvent(block)
 
-  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(e, block, type, text))
+  if (improveButton) improveButton.addEventListener('click', e => e.preventDefault() & ImproveScore.onImproveScore(e, block, type, text, () => toggleControls(block, false)))
   if (hideButton) hideButton.addEventListener('click', e => e.preventDefault() & hideCommentBlock(block, type, text) & setBlockEmoji(block))
-  if (overlay) toggleOverlay(block, holder)
+  if (overlay) toggleOverlayEvent(block, holder)
   if (showButton) showButton.addEventListener('click', e => e.preventDefault() & showCommentBlock(block, holder))
 }
 
