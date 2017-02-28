@@ -39,20 +39,18 @@ const getFakeCommentControlsHTML = classModifier => `
 
 const getFakeHolder = block => block ? block.querySelector(HOLDER_SELECTOR) : null
 
-const createFakeCommentHolderElement = type => {
-  if (type !== 'comment') return null
+const createFakeCommentHolderElement = modifiers => {
   const holder = document.createElement('div')
-  holder.classList.add(COMMENT_HOLDER_CLASS)
+  holder.setAttribute('class', `${COMMENT_HOLDER_CLASS} ${modifiers}`)
   holder.innerHTML = getFakeCommentHolderHTML()
   return holder
 }
 
-const createFakeCommentControlsElement = type => {
-  if (type !== 'comment') return null
-  const holder = document.createElement('div')
-  holder.classList.add(COMMENT_CONTROLS_CLASS)
-  holder.innerHTML = getFakeCommentControlsHTML()
-  return holder
+const createFakeCommentControlsElement = modifiers => {
+  const controls = document.createElement('div')
+  controls.setAttribute('class', `${COMMENT_CONTROLS_CLASS} ${modifiers}`)
+  controls.innerHTML = getFakeCommentControlsHTML()
+  return controls
 }
 
 const setCommentBlockPosition = block => {
@@ -133,7 +131,7 @@ export const setBlockEmoji = (block, toxicity) => {
   }
 }
 
-export const hideCommentBlock = (block, type, text) => {
+export const hideCommentBlock = (block, type, text, config) => {
   let holder = getFakeHolder(block)
 
   if (holder) {
@@ -142,10 +140,12 @@ export const hideCommentBlock = (block, type, text) => {
 
   setCommentBlockPosition(block)
 
-  holder = createFakeCommentHolderElement(type)
+  const { additionalFakeBlockControlsClasses, additionalFakeBlockClasses } = config.containerContent.comment
+
+  holder = createFakeCommentHolderElement(additionalFakeBlockClasses.join(' '))
   block.insertBefore(holder, block.firstChild)
 
-  const controls = createFakeCommentControlsElement(type)
+  const controls = createFakeCommentControlsElement(additionalFakeBlockControlsClasses.join(' '))
   block.insertBefore(controls, block.firstChild)
 
   const hideButton = block.querySelector(COMMENT_CONTROLS_HIDE_SELECTOR)

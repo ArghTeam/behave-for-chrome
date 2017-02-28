@@ -1,6 +1,6 @@
 import * as Toxicity from './toxicity'
+import { Sites } from '../sites'
 import { hideCommentBlock, showCommentBlock, setBlockEmoji } from './fake-comment'
-
 const BEHAVE_ATTR = 'behave'
 const TOXICITY_ATTR = 'behave-toxicity'
 
@@ -96,10 +96,12 @@ const getCommentBlockInfo = (block, type, config) => {
 }
 
 const appendCommentBlocks = (blocks = [], type, config, cb) => {
+  const { additionalBlockBehaviour } = Sites[config.domain]
   blocks.forEach(block => {
     const blockInfo = getCommentBlockInfo(block, type, config)
-    if (blockInfo) {
-      hideCommentBlock(block, type, blockInfo.text)
+    if (blockInfo && blockInfo.text) {
+      additionalBlockBehaviour ? additionalBlockBehaviour(block) : null
+      hideCommentBlock(block, type, blockInfo.text, config)
       commentBlocks.push(blockInfo)
     }
   })

@@ -22,7 +22,9 @@ export const Sites = {
       _default: {
         comment: {
           block: '.comment-renderer:not([behave])',
-          text: '.comment-renderer-text-content'
+          text: '.comment-renderer-text-content',
+          additionalFakeBlockClasses: ['argh-fakeContent--youtube'],
+          additionalFakeBlockControlsClasses: ['argh-controls--youtube']
         }
       }
     }
@@ -38,11 +40,18 @@ export const Sites = {
         }
       ]
     },
+    additionalBlockBehaviour: block => {
+      const content = block.querySelector('.content')
+      content.classList.add('argh-root')
+      content.classList.add('argh-root--twitter')
+    },
     containerContent: {
       _default: {
         comment: {
           block: '.tweet.js-stream-tweet:not([behave])',
-          text: '.js-tweet-text-container'
+          text: '.js-tweet-text-container',
+          additionalFakeBlockClasses: ['argh-fakeContent--twitter'],
+          additionalFakeBlockControlsClasses: ['argh-controls--twitter']
         }
       }
     }
@@ -58,11 +67,17 @@ export const Sites = {
         }
       ]
     },
+    additionalBlockBehaviour: block => {
+      block.classList.add('argh-root')
+      block.classList.add('argh-root--reddit')
+    },
     containerContent: {
       _default: {
         comment: {
           block: '.entry.unvoted:not([behave])',
-          text: '.usertext-body'
+          text: '.usertext-body',
+          additionalFakeBlockClasses: ['argh-fakeContent--reddit'],
+          additionalFakeBlockControlsClasses: ['argh-controls--reddit']
         }
       }
     }
@@ -82,7 +97,9 @@ export const Sites = {
       _default: {
         comment: {
           block: 'div[data-role="post-content"]:not([behave])',
-          text: '.post-message'
+          text: '.post-message',
+          additionalFakeBlockClasses: ['argh-fakeContent--disqus'],
+          additionalFakeBlockControlsClasses: ['argh-controls--disqus']
         }
       }
     }
