@@ -36,8 +36,10 @@ export const makeSignedRequestXHR = (method, url, callback) =>{
 
 const getAccessToken = () =>
   new Promise((resolve, reject) =>{
-    chrome.identity.getAuthToken({/* details */}, accessToken =>{
-      if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
+    chrome.identity.getAuthToken({/* details */}, accessToken => {
+
+      //TODO: While !ext id & REMOVE COMMENT
+      //if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
       resolve(accessToken)
     })
   })
@@ -55,13 +57,19 @@ export const makeSignedRequest = (url, data, callback, retry = true) =>
         body: JSON.stringify(data)
       })
       .then(res => res.json())
-      .then(result => {
-        if (result.error && result.error.code === 401 && retry) {
-          return chrome.identity.removeCachedAuthToken(
-            { 'token': accessToken },
-            makeSignedRequest(url, data, callback, false)
-          )
-        }
-        return callback(result)
-      })
+      .then(
+        result => {
+          //TODO MOCKED! REMOVE THIS
+          result = { attributeScores: {TOXICITY_FAST: { summaryScore : { value: Math.random() }}}}
+
+          if (result.error && result.error.code === 401 && retry) {
+            return chrome.identity.removeCachedAuthToken(
+              { 'token': accessToken },
+              makeSignedRequest(url, data, callback, false)
+            )
+          }
+          return callback(result)
+        },
+        response => callback()
+      )
   )
