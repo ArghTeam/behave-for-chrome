@@ -39,7 +39,8 @@ const getAccessToken = () =>
     chrome.identity.getAuthToken({/* details */}, accessToken => {
 
       //TODO: While !ext id & REMOVE COMMENT
-      if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
+      //if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
+
       resolve(accessToken)
     })
   })
@@ -69,7 +70,6 @@ export const makeSignedRequest = (url, data, callback, retry = true) =>
             )
           }
           return callback(result)
-        },
-        response => callback()
+        }
       )
   )
