@@ -3,7 +3,8 @@
 }
 
 .argh-root--reddit {
-  background: inherit;
+/*TODO: background should be inherit if child comments '.comment' have background color applied */
+  background: white;
 }
 
 .argh-fakeContent {
@@ -18,8 +19,10 @@
   display: flex;
   border-radius: 3px;
 }
+
 .argh-fakeContent--reddit {
-  background: inherit;
+/*TODO: background should be inherit if child comments '.comment' have background color applied */
+  padding: 1em;
 }
 
 .argh-fakeContent.argh-active .argh-overlay {
