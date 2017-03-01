@@ -24,6 +24,9 @@
 /*TODO: background should be inherit if child comments '.comment' have background color applied */
   padding: 1em;
 }
+.argh-fakeContent--twitter {
+  padding: 0.4em;
+}
 
 .argh-fakeContent.argh-active .argh-overlay {
   visibility: visible;
@@ -46,6 +49,9 @@
   display: none;
 }
 
+.argh-fakeContent--twitter > .argh-fakeAvatar {
+  display: none;
+}
 
 .argh-emojis {
   min-width: 3em;
