@@ -39,7 +39,7 @@ const getAccessToken = () =>
     chrome.identity.getAuthToken({/* details */}, accessToken => {
 
       //TODO: While !ext id & REMOVE COMMENT
-      //if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
+      if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
       resolve(accessToken)
     })
   })
@@ -65,7 +65,7 @@ export const makeSignedRequest = (url, data, callback, retry = true) =>
           if (result.error && result.error.code === 401 && retry) {
             return chrome.identity.removeCachedAuthToken(
               { 'token': accessToken },
-              makeSignedRequest(url, data, callback, false)
+              () => makeSignedRequest(url, data, callback, false)
             )
           }
           return callback(result)

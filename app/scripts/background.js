@@ -98,3 +98,21 @@ chrome.extension.onMessage.addListener(onMessage)
 chrome.tabs.onRemoved.addListener(removeBehaveTabs)
 
 chrome.tabs.onUpdated.addListener(isInjected)
+
+const userIndentity = interactive => {
+  chrome.identity.getAuthToken({ interactive }, accessToken => {
+    if (accessToken && !interactive) {
+      return chrome.identity.removeCachedAuthToken(
+        { 'token': accessToken },
+        () => userIndentity(true)
+      )
+    }
+  })
+}
+
+
+chrome.runtime.onInstalled.addListener(details => {
+  if (details.reason === 'install') {
+    userIndentity()
+  }
+})
