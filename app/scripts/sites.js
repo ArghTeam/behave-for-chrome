@@ -67,6 +67,10 @@ export const Sites = {
       ]
     },
     additionalBlockBehaviour: block => {
+      //console.log(window.getComputedStyle(block, null).getPropertyValue('background-color'))
+      if ('rgb(245, 245, 245)' === window.getComputedStyle(block.parentNode, null).getPropertyValue('background-color')) {
+        block.classList.add('argh-root--reddit-theme')
+      }
       block.classList.add('argh-root')
       block.classList.add('argh-root--reddit')
     },

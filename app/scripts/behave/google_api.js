@@ -39,7 +39,7 @@ const getAccessToken = () =>
     chrome.identity.getAuthToken({/* details */}, accessToken => {
 
       //TODO: While !ext id & REMOVE COMMENT
-      //if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
+      if (chrome.runtime.lastError) return reject(chrome.runtime.lastError)
 
       resolve(accessToken)
     })
@@ -61,7 +61,7 @@ export const makeSignedRequest = (url, data, callback, retry = true) =>
       .then(
         result => {
           //TODO MOCKED! REMOVE THIS
-          result = { attributeScores: {TOXICITY_FAST: { summaryScore : { value: Math.random() }}}}
+          //result = { attributeScores: {TOXICITY_FAST: { summaryScore : { value: Math.random() }}}}
 
           if (result.error && result.error.code === 401 && retry) {
             return chrome.identity.removeCachedAuthToken(

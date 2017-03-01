@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.argh-root--reddit-theme, .argh-root--reddit-theme > .argh-fakeContent {
+  background: inherit!important;
+}
+
 .argh-root--reddit {
 /*TODO: background should be inherit if child comments '.comment' have background color applied */
   background: white;

@@ -106,6 +106,8 @@ const userIndentity = interactive => {
         { 'token': accessToken },
         () => userIndentity(true)
       )
+    } else {
+      userIndentity(true)
     }
   })
 }
