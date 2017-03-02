@@ -1,3 +1,15 @@
+.argh-root {
+  position: relative;
+}
+
+.argh-root--reddit-theme, .argh-root--reddit-theme > .argh-fakeContent {
+  background: inherit!important;
+}
+
+.argh-root--reddit {
+  background: white;
+}
+
 .argh-fakeContent {
   box-sizing: border-box;
   background: white;
@@ -9,6 +21,13 @@
   z-index: 1000;
   display: flex;
   border-radius: 3px;
+}
+
+.argh-fakeContent--reddit {
+  padding: 1em;
+}
+.argh-fakeContent--twitter {
+  padding: 0.4em;
 }
 
 .argh-fakeContent.argh-active .argh-overlay {
@@ -27,6 +46,13 @@
   height: 48px;
   background: #e2e2e2;
   margin-right: 10px;
+}
+.argh-fakeContent--reddit > .argh-fakeAvatar {
+  display: none;
+}
+
+.argh-fakeContent--twitter > .argh-fakeAvatar {
+  display: none;
 }
 
 .argh-emojis {
@@ -76,6 +102,10 @@
   justify-content: center;
   align-items: center;
   transition: opacity .3s ease;
+}
+
+.argh-fakeContent--reddit > .argh-overlay {
+  background: inherit;
 }
 
 .argh-copy {

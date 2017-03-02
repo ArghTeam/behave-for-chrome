@@ -41,14 +41,13 @@ export const Sites = {
       ]
     },
     additionalBlockBehaviour: block => {
-      const content = block.querySelector('.content')
-      content.classList.add('argh-root')
-      content.classList.add('argh-root--twitter')
+      block.classList.add('argh-root')
+      block.classList.add('argh-root--twitter')
     },
     containerContent: {
       _default: {
         comment: {
-          block: '.tweet.js-stream-tweet:not([behave])',
+          block: '.tweet.js-stream-tweet > .content:not([behave])',
           text: '.js-tweet-text-container',
           additionalFakeBlockClasses: ['argh-fakeContent--twitter'],
           additionalFakeBlockControlsClasses: ['argh-controls--twitter']
@@ -68,6 +67,9 @@ export const Sites = {
       ]
     },
     additionalBlockBehaviour: block => {
+      if ('rgb(245, 245, 245)' === window.getComputedStyle(block.parentNode, null).getPropertyValue('background-color')) {
+        block.classList.add('argh-root--reddit-theme')
+      }
       block.classList.add('argh-root')
       block.classList.add('argh-root--reddit')
     },
