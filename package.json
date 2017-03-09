@@ -1,7 +1,7 @@
 {
   "name": "behave-for-chrome",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Behave Chrome Extension",
   "scripts": {
     "start": "npm run dev:chrome",
