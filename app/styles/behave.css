@@ -18,7 +18,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 200;
   display: flex;
   border-radius: 3px;
 }
@@ -86,6 +86,11 @@
   height: 32px;
 }
 
+.children .argh-fakeContent--disqus > .argh-fakeAvatar {
+  width: 36px;
+  height: 36px;
+}
+
 .argh-overlay {
   visibility: hidden;
   opacity: 0;
@@ -123,8 +128,14 @@
   bottom: 0;
   padding: 0 0.2em;
   display: none;
-  z-index: 1000;
+  z-index: 200;
 }
+
+.argh-controls--disqus {
+  background: white;
+}
+
+
 
 .argh-controls__item {
   padding: 0 0.4em;
@@ -135,7 +146,7 @@
 .argh-suggest-score {
   position: absolute;
   width: 22em;
-  z-index: 10000000;
+  z-index: 300;
 }
 
 .argh-suggest-score__holder {

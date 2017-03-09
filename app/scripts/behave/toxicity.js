@@ -1,3 +1,5 @@
+const FAIL_TIMEOUT = 5000
+
 let ports = []
 
 const generatePortId = () => {
@@ -13,8 +15,16 @@ const getBlockToxicity = (block, callback) => {
   const id = generatePortId()
   const port = chrome.runtime.connect({ name: id })
   port.postMessage({ action: 'GET_BLOCK_TOXICITY', text: block.text, id })
+
+  let timeout = setTimeout(() => {
+    port.disconnect()
+    ports = ports.filter(p => p !== id)
+    return callback(0)
+  }, FAIL_TIMEOUT)
+
   port.onMessage.addListener((message, sender) => {
     if (message.action === 'GET_BLOCK_TOXICITY_RESULT' && sender.name === id) {
+      clearTimeout(timeout)
       sender.disconnect()
       ports = ports.filter(p => p !== sender.name)
       return callback(message.score)
