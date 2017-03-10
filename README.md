@@ -4,7 +4,7 @@ Behave! is a Chrome extension that uses [Perspective Comment Analyzer API](https
 
 ## Installation
 
-	`$ npm install`
+	$ npm install
 
 ## Usage
 
