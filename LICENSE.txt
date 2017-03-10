@@ -186,7 +186,10 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright {yyyy} {name of copyright owner}
+   Copyright 2017 ARGH! Team https://argh.team welcome@argh.team
+   Copyright 2017 Fedor Troitsky
+   Copyright 2017 Roman Zhygalkin
+   Copyright 2017 Pavel Nartov
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
