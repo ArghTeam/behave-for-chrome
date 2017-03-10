@@ -11,13 +11,13 @@ Run `$ gulp --watch` and load the `dist`-directory into chrome.
 
 ## Connecting to API
 
-This extension utilises Chrome Identity API to authorize users with OAuth 2.0. You will need to provide your own key and application ID to make it work.
+This extension utilizes Chrome Identity API to authorize users with OAuth 2.0. You will need to provide your own key and application ID to make it work.
 
-1. Get your own Application ID and Public Key by uploading extension to the Chrome Web Store at https://chrome.google.com/webstore/developer/dashboard.
-2. Login to https://console.developers.google.com/ and create a OAuth Client ID with the Application ID from previous step.
-3. Setup your concent screen appropriately.
-4. Paste this OAuth Client ID to client_id variable in manifest.json.
-5. Paste Public Key from the step 1 to key variable in manifest.json.
+1. Get your own Application ID and Public Key by uploading the extension to the Chrome Web Store at https://chrome.google.com/webstore/developer/dashboard.
+2. Login to https://console.developers.google.com/ and create an OAuth Client ID with the Application ID from the previous step.
+3. Setup your consent screen appropriately.
+4. Paste this OAuth Client ID to a client_id field in manifest.json.
+5. Paste Public Key from the step 1 to a key field in manifest.json.
 
 
 ## Entryfiles (bundles)
