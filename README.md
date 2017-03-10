@@ -1,5 +1,6 @@
-# Behave Chrome Extension
+# Behave! Chrome Extension
 
+Behave! is a Chrome extension that uses [Perspective Comment Analyzer API](https://github.com/conversationai/perspectiveapi) and hides comments on YouTube, Reddit, Twitter & Disqus depending on the desired level of toxicity. It also converts them into harmless emojis to describe hidden content.
 
 ## Installation
 
