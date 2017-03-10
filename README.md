@@ -19,14 +19,6 @@ This extension utilizes Chrome Identity API to authorize users with OAuth 2.0. Y
 4. Paste this OAuth Client ID to a client_id field in manifest.json.
 5. Paste Public Key from the step 1 to a key field in manifest.json.
 
-
-## Entryfiles (bundles)
-
-There are two kinds of entryfiles that create bundles.
-
-1. All js-files in the root of the `./app/scripts` directory
-2. All css-,scss- and less-files in the root of the `./app/styles` directory
-
 ## Tasks
 
 ### Build
