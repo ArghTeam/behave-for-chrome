@@ -5,8 +5,6 @@ const onLoad = () => {
   const toxicity = document.querySelector('#toxicity')
   const currentToxicity = document.querySelector('#currentToxicity')
   const currentToxicityDescription = document.querySelector('#currentToxicityDescription')
-  const right = document.querySelector('#right')
-  const left = document.querySelector('#left')
 
   const toxicityListener = () => {
     currentToxicity.innerHTML = Emoji.getEmoji(toxicity.value / 100)
@@ -22,10 +20,6 @@ const onLoad = () => {
       toxicityListener(response.toxicity)
     }
   )
-
-  right.innerHTML = Emoji.getEmoji(1.0)
-  left.innerHTML = Emoji.getEmoji(0.0)
-
 }
 
 
