@@ -1,20 +1,32 @@
 import * as Blocks from './block'
+import * as Site from '../sites'
 
 const OBSERVER_CONFIG = { subtree: true, childList: true }
 const ON_STOP_SCROLL_TIMEOUT = 500
+
 
 let observers = {}
 
 let pageInfo = null
 let started = false
 let onScrollTimer = null
+let observerTimeout = null
 let targetElement = null
 
+let tryToContainerCount = 0
+
 const startObserver = config => {
+  clearTimeout(observerTimeout)
   const { selector } = config
   const foundedTargetElement = document.querySelector(selector)
 
-  if (!foundedTargetElement || targetElement === foundedTargetElement) return setTimeout(() => startObserver(config), 10)
+  if (!Site.checkPaths(document.URL) || tryToContainerCount > 50) return tryToContainerCount = 0
+
+  if (!foundedTargetElement || targetElement === foundedTargetElement) {
+    tryToContainerCount += 1
+    observerTimeout = setTimeout(() => startObserver(config), 100)
+    return
+  }
 
   targetElement = foundedTargetElement
 
