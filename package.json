@@ -1,7 +1,7 @@
 {
   "name": "behave-for-chrome",
   "private": true,
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Behave! For Chrome Extension",
   "license": "Apache 2.0",
   "author": "ARGH! Team",
