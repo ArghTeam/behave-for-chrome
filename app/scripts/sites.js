@@ -11,6 +11,7 @@ export const Sites = {
     pageTypes: {
       _default: '\\/'
     },
+    paths: ['\/watch'],
     pageContainers: {
       _default: [
         {
@@ -59,6 +60,7 @@ export const Sites = {
     pageTypes: {
       _default: '\\/'
     },
+    paths: ['\/r\/'],
     pageContainers: {
       _default: [
         {
@@ -88,6 +90,7 @@ export const Sites = {
     pageTypes: {
       _default: '\\/'
     },
+    paths: ['\/embed\/comments\/'],
     pageContainers: {
       _default: [
         {
@@ -106,6 +109,25 @@ export const Sites = {
       }
     }
   }
+}
+
+export const checkPaths = url => {
+  const domain = getPageDomain(url)
+  if (domain) {
+    const { paths } = Sites[domain]
+    if (paths) {
+      let exist = false
+      paths.forEach(path => {
+        if (!exist) {
+          const pathRegexp = new RegExp(path)
+          exist = !!url.match(pathRegexp)
+        }
+      })
+      return exist
+    }
+    return true
+  }
+  return false
 }
 
 export const getPageDomain = url => {
