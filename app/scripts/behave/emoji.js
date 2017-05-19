@@ -15,12 +15,12 @@ const EMOJIES = [
 ]
 
 const EMOJI_DESCRIPTIONS = [
-  'Hide \'em all',
-  'Take a peak',
-  'Open the door a bit wider',
-  'I\'ve been around the block',
-  'OK, show me everything',
-  'OK, show me everything'
+  'I\'m too young to die',
+  'Hey, not too rough',
+  'Hurt me plenty',
+  'Ultra-Violence',
+  'Nightmare!',
+  'Doomed'
 ]
 
 const _EMOJIES_AMOUNT = EMOJIES.length - 1
