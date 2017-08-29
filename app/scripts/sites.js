@@ -15,15 +15,15 @@ export const Sites = {
     pageContainers: {
       _default: [
         {
-          selector: '#watch-discussion'
+          selector: '#watch-discussion, #comments'
         }
       ]
     },
     containerContent: {
       _default: {
         comment: {
-          block: '.comment-renderer:not([behave])',
-          text: '.comment-renderer-text-content',
+          block: '.comment-renderer:not([behave]), ytd-comment-renderer.ytd-comment-thread-renderer:not([behave]), ytd-comment-renderer.ytd-comment-replies-renderer:not([behave])',
+          text: '.comment-renderer-text-content, yt-formatted-string.ytd-comment-renderer',
           additionalFakeBlockClasses: ['argh-fakeContent--youtube'],
           additionalFakeBlockControlsClasses: ['argh-controls--youtube']
         }
