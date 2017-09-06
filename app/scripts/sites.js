@@ -23,7 +23,7 @@ export const Sites = {
       _default: {
         comment: {
           block: '.comment-renderer:not([behave]), ytd-comment-renderer.ytd-comment-thread-renderer:not([behave]), ytd-comment-renderer.ytd-comment-replies-renderer:not([behave])',
-          text: '.comment-renderer-text-content, yt-formatted-string.ytd-comment-renderer',
+          text: '.comment-renderer-text-content, yt-formatted-string.ytd-comment-renderer#content-text',
           additionalFakeBlockClasses: ['argh-fakeContent--youtube'],
           additionalFakeBlockControlsClasses: ['argh-controls--youtube']
         }

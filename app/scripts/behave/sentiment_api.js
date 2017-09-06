@@ -47,7 +47,7 @@ export const getToxicityScore = text =>
       return result.attributeScores[ATTRIBUTE_NAME].summaryScore.value
     }
     return 0
-  })
+  }, () => 0)
 
 export const suggestToxicityScore = (text, score, communityId) => {
   let data = {
