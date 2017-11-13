@@ -21,3 +21,9 @@ This extension utilizes Chrome Identity API to authorize users with OAuth 2.0. Y
 3. Setup your consent screen appropriately.
 4. Paste this OAuth Client ID to a `client_id` field in manifest.json.
 5. Paste Public Key from the step 1 to a `key` field in manifest.json.
+
+# Developer & Support
+
+ARGH! Team has developed this app to showcase Google API. Address all your requests and questions here on GitHub as issues. Happy coding!
+
+(c) 2017 https://argh.team
